@@ -12,8 +12,7 @@ def create_user_general_account(sender, instance, created, **kwargs):
     if created:
         account_code = str(randint(1, 99999))
         account_code = account_code + str(datetime.now().strftime('%Y%m%d%H%M%S'))
-        Account.objects.create(user=instance, account_code=account_code)
-        GeneralAccount.objects.create(user=instance)
+        GeneralAccount.objects.create(user=instance, account_code=account_code, account_no=account_code)
         print("BaseAccount created successfully")
 
 

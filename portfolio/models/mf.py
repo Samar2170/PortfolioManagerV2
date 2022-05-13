@@ -1,30 +1,30 @@
 from django.db import models
 from portfolio.models.accounts import DematAccount
-from securities.models.stocks import Stock
+from securities.models.mf import MutualFund
 
-class StockBuyTrade(models.Model):
+class MutualFundBuyTrade(models.Model):
     account = models.ForeignKey(DematAccount, on_delete=models.CASCADE)
-    security = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    security = models.ForeignKey(MutualFund, on_delete=models.CASCADE)
     quantity = models.FloatField()
     price = models.FloatField()
     total_amount = models.FloatField()
     trade_date = models.DateField()
-    trade_id = models.UUIDField(null=True)
+    trade_id = models.UUIDField()
 
-class StockHolding(models.Model):
+class MutualFundHolding(models.Model):
     account = models.ForeignKey(DematAccount, on_delete=models.CASCADE)
-    security = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    security = models.ForeignKey(MutualFund, on_delete=models.CASCADE)
     quantity = models.FloatField()
     buy_price = models.FloatField()
     total_amount = models.FloatField()
 
-class StockSellTrade(models.Model):
+class MutualFundSellTrade(models.Model):
     account = models.ForeignKey(DematAccount, on_delete=models.CASCADE)
-    security = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    security = models.ForeignKey(MutualFund, on_delete=models.CASCADE)
     quantity = models.FloatField()
     buy_price = models.FloatField()
     sell_price = models.FloatField()
     total_amount = models.FloatField()
     trade_date = models.DateField()
     profit = models.FloatField(null=True)
-    trade_id = models.UUIDField(null=True) ## remove True
+    trade_id = models.UUIDField()

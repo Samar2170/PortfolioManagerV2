@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'portfolio',
     'util',
-    'securities'
+    'securities',
+    'authentication',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +116,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'loader.authentication.JWTAuthentication',
+        'authentication.authentication.JWTAuthentication',
     ),
     'DEFAULT PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

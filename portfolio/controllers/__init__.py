@@ -1,4 +1,3 @@
-from gc import get_threshold
 from portfolio.models.accounts import fetch_account
 
 class BaseController:
@@ -13,28 +12,12 @@ class BaseController:
 
     def record_trade(self, trade):
         if trade.trade_type == 'BUY':
-            self.Buy_Trade_Model.objects.create(
-                account=self.account,
-                security=self.security,
-                quantity=trade.quantity,
-                price=trade.price,
-                total_amount=trade.quantity * trade.price,
-                trade_date=trade.trade_date,
-            )
+            self.Buy_Trade_Model.objects.create(account=self.account,security=self.security,quantity=trade.quantity,
+                price=trade.price,total_amount=trade.quantity * trade.price,trade_date=trade.trade_date,trade_id=trade.trade_id)
         elif trade.trade_type == 'SELL':
-            holding = self.Holding_Model.objects.get(
-                security=self.security,
-                account=self.account,
-            )
-            self.Sell_Trade_Model.objects.create(
-                account=self.account,
-                security=self.security,
-                quantity=trade.quantity,
-                buy_price=holding.buy_price,
-                sell_price=trade.price,
-                total_amount=trade.quantity * trade.price,
-                trade_date=trade.trade_date,
-            )
+            holding = self.Holding_Model.objects.get(security=self.security,account=self.account,)
+            self.Sell_Trade_Model.objects.create(account=self.account,security=self.security,quantity=trade.quantity,buy_price=holding.buy_price,
+                sell_price=trade.price,total_amount=trade.quantity * trade.price,trade_date=trade.trade_date,trade_id=trade.trade_id)
         else:
             raise Exception('Invalid trade type')
         self.handle_trade(trade)
@@ -54,16 +37,13 @@ class BaseController:
             holding.quantity -= trade.quantity
             holding.total_amount -= trade.quantity * holding.buy_price
             holding.save(update_fields=['quantity','total_amount'])
-            self.update_holding_price()
+            self.update_profit(trade)
 
         elif not check_holding and trade.trade_type == 'BUY':
-            holding = self.Holding_Model.objects.create(
-                security=self.security,
-                account=self.account,
-                quantity=trade.quantity,
-                buy_price=trade.price,
-                total_amount = trade.quantity * trade.price,
-            )
+            holding = self.Holding_Model.objects.create(security=self.security,account=self.account,
+                quantity=trade.quantity,buy_price=trade.price,
+                total_amount = trade.quantity * trade.price)
+
         elif not check_holding and trade.trade_type == 'SELL':
             raise Exception('No holding found')
         else:
@@ -88,3 +68,11 @@ class BaseController:
         except self.Holding_Model.DoesNotExist:
             return None
 
+    def update_profit(self,trade):
+        sell_trade = self.Sell_Trade_Model.objects.filter(
+            trade_id = trade.trade_id,
+        )
+        for trade in sell_trade:
+            trade.profit = (trade.sell_price - trade.buy_price) * trade.quantity
+            trade.save(update_fields=['profit'])
+        return None
