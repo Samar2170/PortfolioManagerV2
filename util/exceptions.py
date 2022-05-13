@@ -37,3 +37,4 @@ class NoContentException(CustomException):
     status_code = status.HTTP_204_NO_CONTENT
     error_code = 104
     success=False
+

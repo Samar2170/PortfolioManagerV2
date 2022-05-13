@@ -1,4 +1,6 @@
 from portfolio.models.accounts import fetch_account
+from util.exceptions import ValidationException
+
 
 class BaseController:
     Security_Model =None
@@ -15,11 +17,13 @@ class BaseController:
             self.Buy_Trade_Model.objects.create(account=self.account,security=self.security,quantity=trade.quantity,
                 price=trade.price,total_amount=trade.quantity * trade.price,trade_date=trade.trade_date,trade_id=trade.trade_id)
         elif trade.trade_type == 'SELL':
-            holding = self.Holding_Model.objects.get(security=self.security,account=self.account,)
+            check_holding = self.check_holding()
+            if check_holding is None:
+                raise ValidationException('Cant create Sell trade. No holding found')
             self.Sell_Trade_Model.objects.create(account=self.account,security=self.security,quantity=trade.quantity,buy_price=holding.buy_price,
                 sell_price=trade.price,total_amount=trade.quantity * trade.price,trade_date=trade.trade_date,trade_id=trade.trade_id)
         else:
-            raise Exception('Invalid trade type')
+            raise ValidationException('Invalid trade type')
         self.handle_trade(trade)
 
     
@@ -39,15 +43,15 @@ class BaseController:
             holding.save(update_fields=['quantity','total_amount'])
             self.update_profit(trade)
 
-        elif not check_holding and trade.trade_type == 'BUY':
+        elif check_holding is None and trade.trade_type == 'BUY':
             holding = self.Holding_Model.objects.create(security=self.security,account=self.account,
                 quantity=trade.quantity,buy_price=trade.price,
                 total_amount = trade.quantity * trade.price)
 
         elif not check_holding and trade.trade_type == 'SELL':
-            raise Exception('No holding found')
+            raise ValidationException('No holding found')
         else:
-            raise Exception('Invalid trade type')
+            raise ValidationException('Invalid trade type')
         
     def update_holding_price(self):
         holding = self.Holding_Model.objects.get(

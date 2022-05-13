@@ -6,8 +6,6 @@ class Account(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     account_code = models.CharField(max_length=100, unique=True)
 
-
-
 class BankAccount(Account):
     balance = models.FloatField(default=0)
     account_no = models.CharField(max_length=100, unique=True)
@@ -20,7 +18,7 @@ class BankAccount(Account):
 
 
 class DematAccount(Account):
-    balance = models.FloatField(default=0)
+    balance = models.FloatField(default=0,null=True)
     account_no = models.CharField(max_length=100, unique=True)
     broker = models.CharField(max_length=100)
 
@@ -36,17 +34,17 @@ class GeneralAccount(Account):
         super().save(*args, **kwargs)
 
 
-def fetch_account(account_code):
+def fetch_account(account_no):
     try:
-        account = BankAccount.objects.get(account_code=account_code)
+        account = BankAccount.objects.get(account_no=account_no)
         return account
     except BankAccount.DoesNotExist:
         try:
-            account = DematAccount.objects.get(account_code=account_code)
+            account = DematAccount.objects.get(account_no=account_no)
             return account
         except DematAccount.DoesNotExist:
             try:
-                account = GeneralAccount.objects.get(account_code=account_code)
+                account = GeneralAccount.objects.get(account_no=account_no)
                 return account
             except GeneralAccount.DoesNotExist:
                 return None
