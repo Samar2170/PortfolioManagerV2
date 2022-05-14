@@ -16,7 +16,8 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
 SECRET_KEY = env('SECRET_KEY')
 DEBUG =env('DEBUG')
 
-ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(' ')
+# ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(' ')
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,13 +75,13 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://localhost:8080',
-    'http://localhost:8081',
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3000',
+#     'http://localhost:8080',
+#     'http://localhost:8081',
 
-)
-
+# )
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 AUTH_PASSWORD_VALIDATORS = [
