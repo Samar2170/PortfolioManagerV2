@@ -1,5 +1,4 @@
 from django.db import models
-from securities.constants import BANKS
 
 class DebtSecurity(models.Model):
     name = models.CharField(max_length=100)
@@ -16,12 +15,12 @@ class ListedNCD(DebtSecurity):
     symbol1 = models.CharField(max_length=50)
     isin_code = models.CharField(max_length=50)
     dirty_price = models.FloatField()
-    clean_price = models.FloatField()
-    secured = models.BooleanField()
-    issuer = models.CharField(max_length=100)
+    clean_price = models.FloatField(null=True)
+    secured = models.BooleanField(null=True)
+    issuer = models.CharField(max_length=100, null=True)
 
-class FD(DebtSecurity):
-    issuer = models.CharField(max_length=100, choices=BANKS)
+# class FD(DebtSecurity):
+#     issuer = models.CharField(max_length=100, choices=BANKS)
 
 class SavingsBond(DebtSecurity):
     issuer = models.CharField(max_length=100, default='GOI')

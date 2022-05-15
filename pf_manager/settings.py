@@ -11,9 +11,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env.dev'))
 
 
 
-# SECRET_KEY = 'django-insecure-@je+%7#k_d4zw6g!-@cn3k8^mlvbu!qa#@b07lgw$t)^vsc^e%'
+SECRET_KEY = 'django-insecure-@je+%7#k_d4zw6g!-@cn3k8^mlvbu!qa#@b07lgw$t)^vsc^e%'
 
-SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = env('SECRET_KEY')
 DEBUG =env('DEBUG')
 
 # ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(' ')
