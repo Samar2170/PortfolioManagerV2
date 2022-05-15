@@ -10,7 +10,10 @@ class BaseController:
     
     def __init__(self, symbol,account_code):
         self.account = fetch_account(account_code)
-        self.security = self.Security_Model.objects.get(symbol=symbol)
+        try:
+            self.security = self.Security_Model.objects.get(symbol=symbol)
+        except self.Security_Model.DoesNotExist:
+            raise ValidationException('Security not found')
 
     def record_trade(self, trade):
         if trade.trade_type == 'BUY':

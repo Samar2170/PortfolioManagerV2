@@ -10,7 +10,7 @@ class RegisterMutualFundTrade(APIViewWithPermission):
         requested_data = unwrap_query_dict(request.data)
         data = MutualFundTrade(**requested_data)
         
-        mfct = MutualFundController(data.symbol, data.account_no)
+        mfct = MutualFundController(data.symbol.lower(), data.account_no)
         trade = Trade(data.symbol, data.quantity, data.price, data.trade_type, data.trade_date)
         mfct.record_trade(trade)
         return Response({"message":"Mutual Fund Trade Registered"})

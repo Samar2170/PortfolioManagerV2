@@ -10,6 +10,7 @@ from pf_manager.validator import Validator
 
 @api_view(['GET'])
 def profile(request):
+    import ipdb; ipdb.set_trace()
     user=request.user
     print(user)
     serialized_user = UserSz(user)

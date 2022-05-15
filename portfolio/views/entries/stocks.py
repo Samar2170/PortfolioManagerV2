@@ -7,6 +7,7 @@ from portfolio.views import APIViewWithPermission
 
 class RegisterStockTrade(APIViewWithPermission):
     def post(self,request):
+        # import ipdb; ipdb.set_trace()
         requested_data = unwrap_query_dict(request.data)
         data = StockTrade(**requested_data)
         

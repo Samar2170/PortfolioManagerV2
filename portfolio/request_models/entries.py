@@ -20,7 +20,7 @@ class StockTrade(BaseModel):
 class MutualFundTrade(BaseModel):
     account_no: str
     symbol: str
-    quantity: int
+    quantity: float
     price: float
     trade_date: str
     trade_type: Trade_Type

@@ -10,7 +10,10 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from util.logger import Logger
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pf_manager.settings')
+
+Logger()
 
 application = get_wsgi_application()

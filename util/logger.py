@@ -91,4 +91,5 @@ class DjangoRequestLogger(MiddlewareMixin):
         request_information['headers']=request.headers
         request_information['cookies'] = request.COOKIES
         request_information['data'] = request.GET or request.POST
+        request_information['method'] = request.method
         return request_information
