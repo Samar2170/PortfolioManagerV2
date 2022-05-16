@@ -10,8 +10,8 @@ class BaseBondController:
     Buy_Trade_Model = None
     Sell_Trade_Model = None
 
-    def __init__(self, name,account_code):
-        self.account = fetch_account(account_code)
+    def __init__(self, name,account_no):
+        self.account = fetch_account(account_no)
         try:
             self.security = self.Security_Model.objects.get(name=name)
         except self.Security_Model.DoesNotExist:
