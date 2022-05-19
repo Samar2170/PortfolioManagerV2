@@ -7,7 +7,8 @@ from portfolio.views.entries import bullion as bullion
 from portfolio.views.entries import bonds as bonds
 from portfolio.views.entries import debt as debt
 from portfolio.views.accounts import BankAccountViewSet, DematAccountViewSet, GeneralAccountViewSet
-from portfolio.views.holdings import StockHoldings, MutualFundHoldings, BullionHoldings
+from portfolio.views.holdings import StockHoldings, MutualFundHoldings, BullionHoldings, ListedNCDHoldings,\
+    UnlistedBondHoldings, FixedDepositHoldings , AggregateHoldings
 
 
 router = routers.DefaultRouter()
@@ -27,6 +28,11 @@ urlpatterns = [
     path('stock-holdings/',StockHoldings.as_view(),name='stock_holdings'),
     path('mf-holdings/',MutualFundHoldings.as_view(),name='mf_holdings'),
     path('bullion-holdings/',BullionHoldings.as_view(),name='bullion_holdings'),
-
+    path('bond-holdings/',ListedNCDHoldings.as_view(),name='bond_holdings'),
+    path('unlisted-bond-holdings/',UnlistedBondHoldings.as_view(),name='unlisted_bond_holdings'),
+    path('fixed-deposit-holdings/',FixedDepositHoldings.as_view(),name='fixed_deposit_holdings'),
+    path('aggregate-holdings/',AggregateHoldings.as_view(),name='aggregate_holdings'),
+ 
+ 
     path('', include(router.urls)),
 ]

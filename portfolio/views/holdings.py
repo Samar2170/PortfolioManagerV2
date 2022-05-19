@@ -23,7 +23,7 @@ class ListedNCDHoldings(BaseHoldings):
     Holdings_Model = ListedNCDHolding
     Serializer_Class = ListedNCDHoldingSerializer
 
-class UnlistedNCDHoldings(BaseHoldings):
+class UnlistedBondHoldings(BaseHoldings):
     Holdings_Model = UnlistedBondHolding
     Serializer_Class = UnlistedBondHoldingSerializer
 
@@ -31,3 +31,17 @@ class FixedDepositHoldings(BaseHoldings):
     Holdings_Model = FixedDepositHolding
     Serializer_Class = FixedDepositHoldingSerializer
 
+
+from portfolio.views import APIViewWithPermission
+from django.db.models import Sum
+from rest_framework.response import Response
+class AggregateHoldings(APIViewWithPermission):
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        stocks = StockHolding.objects.filter(account__user=user).aggregate(Sum('total_amount'))['total_amount__sum']
+        bullion = BullionHolding.objects.filter(account__user=user).aggregate(Sum('total_amount'))['total_amount__sum']
+        mf = MutualFundHolding.objects.filter(account__user=user).aggregate(Sum('total_amount'))['total_amount__sum']
+        fd = FixedDepositHolding.objects.filter(account__user=user).aggregate(Sum('total_amount'))['total_amount__sum']
+        return Response({'stocks': stocks, 'bullion': bullion, 'mf': mf, 'fd': fd})
+    
