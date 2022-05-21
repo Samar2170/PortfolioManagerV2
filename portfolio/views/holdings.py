@@ -35,6 +35,7 @@ class FixedDepositHoldings(BaseHoldings):
 from portfolio.views import APIViewWithPermission
 from django.db.models import Sum
 from rest_framework.response import Response
+
 class AggregateHoldings(APIViewWithPermission):
 
     def get(self, request, *args, **kwargs):

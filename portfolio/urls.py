@@ -33,6 +33,5 @@ urlpatterns = [
     path('fixed-deposit-holdings/',FixedDepositHoldings.as_view(),name='fixed_deposit_holdings'),
     path('aggregate-holdings/',AggregateHoldings.as_view(),name='aggregate_holdings'),
  
- 
     path('', include(router.urls)),
 ]
