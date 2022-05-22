@@ -133,6 +133,7 @@ REST_FRAMEWORK = {
     'DEFAULT PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+
 }
 
 

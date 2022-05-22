@@ -21,4 +21,5 @@ urlpatterns = [
     path('auth/',include('authentication.urls')),
     path('portfolio/',include('portfolio.urls')),
     path('loader/',include('loader.urls')),
+    path('securities/',include('securities.urls')),
 ]

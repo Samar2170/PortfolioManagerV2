@@ -3,8 +3,8 @@ import os
 from celery import Celery
 from django.conf import settings
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio_mananger.settings')
-app=Celery('portfolio_mananger')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pf_manager.settings')
+app=Celery('pf_manager')
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 

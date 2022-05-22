@@ -42,7 +42,7 @@ class File(models.Model):
 
 class StockHoldingFile(File):
     account=models.ForeignKey(DematAccount, on_delete=models.CASCADE)
-    VALID_COLS=['symbol','quantity','buy_price','total_amount']
+    VALID_COLS=['symbol','quantity','buy_price']
 
 class ListedNCDHoldingFile(File):
     account = models.ForeignKey(DematAccount,on_delete=models.CASCADE)
@@ -55,6 +55,6 @@ class FDHoldingFile(File):
     VALID_COLS=['account_no', 'total_amount', 'interest_rate', 'ip_frequency', 'start_date', 'maturity_date', 'maturity_amount', 'isin_code']
 
 class MFHoldingFile(File):
-    account = models.ForeignKey(BankAccount,on_delete=models.CASCADE)
-    VALID_COLS=[ 'total_amount','symbol','quantity','buy_price']
+    account = models.ForeignKey(DematAccount,on_delete=models.CASCADE)
+    VALID_COLS=[ 'symbol','quantity','buy_price']
     

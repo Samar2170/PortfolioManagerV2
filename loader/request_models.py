@@ -17,7 +17,6 @@ class StockHoldingEntry(BaseModel):
     symbol: str
     quantity: int
     buy_price: float
-    total_amount: float
 
 class BondHoldingEntry(BaseModel):
     symbol: str

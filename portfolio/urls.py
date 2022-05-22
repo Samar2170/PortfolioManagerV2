@@ -30,7 +30,7 @@ urlpatterns = [
     path('bullion-holdings/',BullionHoldings.as_view(),name='bullion_holdings'),
     path('bond-holdings/',ListedNCDHoldings.as_view(),name='bond_holdings'),
     path('unlisted-bond-holdings/',UnlistedBondHoldings.as_view(),name='unlisted_bond_holdings'),
-    path('fixed-deposit-holdings/',FixedDepositHoldings.as_view(),name='fixed_deposit_holdings'),
+    path('fd-holdings/',FixedDepositHoldings.as_view(),name='fixed_deposit_holdings'),
     path('aggregate-holdings/',AggregateHoldings.as_view(),name='aggregate_holdings'),
  
     path('', include(router.urls)),
