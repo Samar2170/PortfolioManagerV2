@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from loader.models import StockHoldingFile,FDHoldingFile
 from portfolio.models.accounts import DematAccount
-from loader.tasks import  parse_ot_fd_holding,  parse_ot_stock_holding
+from loader.tasks import  parse_ot_fd_holding,  parse_ot_stock_holding, parse_ot_zerodha_file
 
 class APIViewWithPermission(APIView):
     permission_classes = [IsAuthenticated]
@@ -40,16 +40,12 @@ class UploadFDHoldings(BaseUploadHoldings):
     def call_after_save(self,file_id):
         parse_ot_fd_holding.delay(file_id)
 
-# class UploadListedNCDHoldings(BaseUploadHoldings):
-#     Holding_Model=ListedNCDHoldingFile
-
-#     def call_after_save(self,file_id):
-#         parse_ot_bond_holding.delay(file_id)
 
 
-# class UploadMFHoldings(BaseUploadHoldings):
-#     Holding_Model=MFHoldingFile
+class UploadZeordhaHoldings(BaseUploadHoldings):
+    Holding_Model=StockHoldingFile
 
-#     def call_after_save(self,file_id):
-#         parse_ot_mf_holding.delay(file_id)
+    def call_after_save(self,file_id):
+        parse_ot_zerodha_file.delay(file_id)
+
         

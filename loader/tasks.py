@@ -1,16 +1,12 @@
 import pandas as pd
 from celery import shared_task
-from loader.models import File, StockHoldingFile, ListedNCDHoldingFile, FDHoldingFile,MFHoldingFile
+from loader.models import  StockHoldingFile ,FDHoldingFile
 from loader.request_models import FDHoldingEntry, StockHoldingEntry, BondHoldingEntry
-from securities.models.debt import ListedNCD
 from securities.models.stocks import Stock
-from securities.models.mf import MutualFund
 
 from portfolio.models.stocks import StockHolding
-from portfolio.models.mf import MutualFundHolding
 from portfolio.models.fd import FixedDepositHolding
-from portfolio.models.debt import ListedNCDHolding
-
+from loader.parser.converter import zdf_to_input_dict
 
 # @shared_task
 def parse_ot_stock_holding(file_id):
@@ -152,6 +148,10 @@ def parse_ot_fd_holding(file_id):
     file_obj.save()
     return True
 
+@shared_task
+def parse_ot_zerodha_file(file_id):
+    zdf_to_input_dict(file_id)
+    return True
 
 # @shared_task
 # def parse_ot_bond_holding(file_id):

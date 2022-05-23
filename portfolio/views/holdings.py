@@ -1,3 +1,4 @@
+from portfolio.models.accounts import BankAccount
 from portfolio.models.bullion import BullionHolding
 from portfolio.models.mf import MutualFundHolding
 from portfolio.models.stocks import StockHolding
@@ -44,5 +45,9 @@ class AggregateHoldings(APIViewWithPermission):
         bullion = BullionHolding.objects.filter(account__user=user).aggregate(Sum('total_amount'))['total_amount__sum']
         mf = MutualFundHolding.objects.filter(account__user=user).aggregate(Sum('total_amount'))['total_amount__sum']
         fd = FixedDepositHolding.objects.filter(account__user=user).aggregate(Sum('total_amount'))['total_amount__sum']
-        return Response({'stocks': stocks, 'bullion': bullion, 'mf': mf, 'fd': fd})
+        cash = BankAccount.objects.filter(user=user).aggregate(Sum('balance'))['balance__sum']
+        listed_ncd = ListedNCDHolding.objects.filter(account__user=user).aggregate(Sum('total_amount'))['total_amount__sum']
+        total = stocks + bullion  + fd + cash + listed_ncd + mf
+        return Response({'stocks': stocks, 'bullion': bullion, 'mf': mf, 'fd': fd, 'cash': cash,
+                         'listed_ncd': listed_ncd, "total": total})
     
